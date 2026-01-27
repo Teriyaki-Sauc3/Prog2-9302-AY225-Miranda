@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prelim Exam Score Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        
+        .title {
+            background-color: #ffc107;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 3px solid #ffa000;
+        }
+        
+        .title h1 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 12px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .btn-calculate {
+            background-color: #ffc107;
+            color: #333;
+        }
+        
+        .btn-calculate:hover {
+            background-color: #ffa000;
+        }
+        
+        .btn-clear {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background-color: #5a6268;
+        }
+        
+        .results {
+            background-color: #fff8e1;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .results h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .result-row span:first-child {
+            color: #555;
+        }
+        
+        .result-row span:last-child {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .success {
+            color: #28a745 !important;
+        }
+        
+        .danger {
+            color: #dc3545 !important;
+        }
+        
+        .remarks {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+        
+        .remarks h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .remarks p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>PRELIM EXAM SCORE CALCULATOR</h1>
+        </div>
+        
+        <div class="content">
+            <div class="input-group">
+                <label>Attendance (0-100):</label>
+                <input type="number" id="attendance" min="0" max="100" placeholder="Enter attendance">
+            </div>
+            
+            <div class="input-group">
+                <label>Lab Work 1:</label>
+                <input type="number" id="lab1" min="0" max="100" placeholder="Enter Lab Work 1 grade">
+            </div>
+            
+            <div class="input-group">
+                <label>Lab Work 2:</label>
+                <input type="number" id="lab2" min="0" max="100" placeholder="Enter Lab Work 2 grade">
+            </div>
+            
+            <div class="input-group">
+                <label>Lab Work 3:</label>
+                <input type="number" id="lab3" min="0" max="100" placeholder="Enter Lab Work 3 grade">
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-calculate" onclick="calculate()">Calculate</button>
+                <button class="btn btn-clear" onclick="clearFields()">Clear</button>
+            </div>
+            
+            <div class="results">
+                <h3>Results</h3>
+                <div class="result-row">
+                    <span>Lab Work Average:</span>
+                    <span id="labAvg">---</span>
+                </div>
+                <div class="result-row">
+                    <span>Class Standing:</span>
+                    <span id="classStanding">---</span>
+                </div>
+                <div class="result-row">
+                    <span>Required to PASS (75):</span>
+                    <span id="passScore">---</span>
+                </div>
+                <div class="result-row">
+                    <span>Required for EXCELLENT (100):</span>
+                    <span id="excellentScore">---</span>
+                </div>
+            </div>
+            
+            <div class="remarks">
+                <h3>Remarks</h3>
+                <p id="remarks">Enter grades and press Calculate.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
