@@ -1,0 +1,213 @@
+<!-- John Paul Benedict G. Miranda -->
+<!-- 23-0332-752 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records - John Paul Benedict G. Miranda 23-0332-752</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .input-form input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-form button {
+            padding: 8px 16px;
+            margin: 5px;
+            background-color: #FFC107;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .input-form button:hover {
+            background-color: #FFB300;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #FFC107;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Record System</h1>
+    
+    <div class="input-form">
+        <input type="text" id="idInput" placeholder="Student ID">
+        <input type="text" id="nameInput" placeholder="Student Name">
+        <input type="text" id="gradeInput" placeholder="Grade">
+        <button onclick="createRecord()">Add Student</button>
+    </div>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Grade</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+
+    <footer>
+        &copy; 2024 Student Record System - John Paul Benedict G. Miranda 23-0332-752
+    </footer>
+
+    <script>
+        // John Paul Benedict G. Miranda
+        // 23-0332-752
+        
+        // Global array to store student data
+        let students = [];
+        const CSV_FILE = 'MOCK_DATA.csv';
+
+        // Load CSV file on page load
+        async function loadCSV() {
+            try {
+                const response = await fetch(CSV_FILE);
+                const csvData = await response.text();
+                parseCSV(csvData);
+                render();
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                alert('Error loading student data from CSV file');
+            }
+        }
+
+        // Parse CSV into array of objects
+        function parseCSV(csvData) {
+            const lines = csvData.trim().split('\n');
+            // Skip header row (first line)
+            students = lines.slice(1).map(line => {
+                const [id, name, grade] = line.split(',');
+                return { id: id.trim(), name: name.trim(), grade: grade.trim() };
+            });
+        }
+
+        // Save data back to CSV (creates download since we can't write directly)
+        function saveToCSV() {
+            // Include header row
+            let csvContent = 'ID,Name,Grade\n' + students.map(s => `${s.id},${s.name},${s.grade}`).join('\n');
+            
+            // Create a blob and download link
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'class_records.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            alert('CSV file updated! Please replace the old class_records.csv with the downloaded file.');
+        }
+
+        // Read: Render table with current data
+        function render() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            students.forEach((student, index) => {
+                const row = `
+                    <tr>
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.grade}</td>
+                        <td><button class="delete-btn" onclick="deleteRecord(${index})">Delete</button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Create: Add new student
+        function createRecord() {
+            const id = document.getElementById('idInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim();
+            const grade = document.getElementById('gradeInput').value.trim();
+
+            if (id && name && grade) {
+                students.push({ id, name, grade });
+                
+                // Clear inputs
+                document.getElementById('idInput').value = '';
+                document.getElementById('nameInput').value = '';
+                document.getElementById('gradeInput').value = '';
+
+                render();
+                saveToCSV();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Delete: Remove student from array
+        function deleteRecord(index) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                students.splice(index, 1);
+                render();
+                saveToCSV();
+            }
+        }
+
+        // Initialize on page load
+        loadCSV();
+    </script>
+</body>
+</html>
